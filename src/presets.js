@@ -14,9 +14,7 @@ const ICONS_DIR = path.join(__dirname, '..', 'icons')
 
 const COLOR_OFF = combineRgb(0, 0, 0)
 const COLOR_ON = combineRgb(0, 200, 0)
-const COLOR_LIVE = combineRgb(200, 0, 0)
 const COLOR_WHITE = combineRgb(255, 255, 255)
-const COLOR_GRAY = combineRgb(128, 128, 128)
 
 /**
  * 尝试加载图标文件，返回 base64 编码或 undefined
@@ -28,7 +26,7 @@ function loadIcon(iconName) {
 			const data = fs.readFileSync(iconPath)
 			return `data:image/png;base64,${data.toString('base64')}`
 		}
-	} catch (e) {
+	} catch {
 		// 图标不存在则不设置
 	}
 	return undefined

@@ -10,9 +10,7 @@ import { ActionRegistry, ActionTypes } from './constants.js'
  */
 function buildFunctionChoices(config, supported) {
 	if (!config.functions || config.functions.length === 0) return []
-	const funcs = supported
-		? config.functions.filter((f) => supported.has(f.property))
-		: config.functions
+	const funcs = supported ? config.functions.filter((f) => supported.has(f.property)) : config.functions
 	return funcs.map((f) => ({ id: f.name, label: f.description }))
 }
 
@@ -124,7 +122,7 @@ async function handleMultiFunctionAction(self, actionId, config, event) {
 /**
  * 处理单功能 Action 的按键回调
  */
-async function handleSingleFunctionAction(self, actionId, config, event) {
+async function handleSingleFunctionAction(self, actionId, config, _event) {
 	const property = config.property
 	const group = config.group
 

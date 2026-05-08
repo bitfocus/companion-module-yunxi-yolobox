@@ -4,12 +4,7 @@
  */
 
 import WebSocket from 'ws'
-import {
-	DEFAULT_PORT,
-	CONNECTION_TIMEOUT,
-	RECONNECT_INTERVAL,
-	WebSocketEndpoints,
-} from './constants.js'
+import { DEFAULT_PORT, CONNECTION_TIMEOUT, RECONNECT_INTERVAL, WebSocketEndpoints } from './constants.js'
 
 export const ConnectionState = {
 	DISCONNECTED: 'disconnected',
@@ -240,7 +235,7 @@ export class YunxiWebSocketClient {
 				this.instance.log('debug', 'Action socket closed')
 				this.actionSocket = null
 				setTimeout(() => {
-					for (const [orderId, request] of this.pendingRequests) {
+					for (const [, request] of this.pendingRequests) {
 						clearTimeout(request.timeout)
 						request.resolve({ success: false, error: 'Connection closed' })
 					}

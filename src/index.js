@@ -10,7 +10,7 @@ import { setupFeedbacks } from './feedbacks.js'
 import { setupPresets } from './presets.js'
 import { setupVariables, updateConnectionVariables, updateStateVariable } from './variables.js'
 import { YunxiWebSocketClient } from './websocket-client.js'
-import { PropertyToActionMap, DEFAULT_PORT } from './constants.js'
+import { DEFAULT_PORT } from './constants.js'
 
 export class YunxiYoloBoxInstance extends InstanceBase {
 	/**
@@ -37,7 +37,7 @@ export class YunxiYoloBoxInstance extends InstanceBase {
 		this.wsClient = new YunxiWebSocketClient(this)
 
 		// 设备状态推送回调
-		this.wsClient.onStateUpdate = (property, value, group, description) => {
+		this.wsClient.onStateUpdate = (property, value, _group, _description) => {
 			this.updateDeviceState(property, value)
 		}
 
@@ -45,7 +45,7 @@ export class YunxiYoloBoxInstance extends InstanceBase {
 		this.wsClient.onConnectionChange = async (connected) => {
 			this.updateStatus(
 				connected ? InstanceStatus.Ok : InstanceStatus.Disconnected,
-				connected ? 'Connected' : 'Disconnected'
+				connected ? 'Connected' : 'Disconnected',
 			)
 			updateConnectionVariables(this, connected)
 			if (connected) {

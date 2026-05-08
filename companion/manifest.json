@@ -5,12 +5,13 @@
 	"description": "Control YoloBox streaming devices via WebSocket",
 	"version": "1.0.0",
 	"license": "MIT",
-	"repository": "git+https://github.com/bitfocus/companion-module-yunxi-yolobox.git",
-	"bugs": "https://github.com/bitfocus/companion-module-yunxi-yolobox/issues",
+	"repository": "git+https://github.com/zhanzhi190-dotcom/companion-module-yunxi-yolobox.git",
+	"bugs": "https://github.com/zhanzhi190-dotcom/companion-module-yunxi-yolobox/issues",
 	"maintainers": [
 		{
 			"name": "YunXi Tech",
-			"email": "support@yunxi.tv"
+			"email": "zhanzhi190@gmail.com",
+			"github": "zhanzhi190-dotcom"
 		}
 	],
 	"runtime": {

@@ -6,9 +6,8 @@
 import { combineRgb } from '@companion-module/base'
 import { ActionRegistry, ActionTypes, PropertyToActionMap } from './constants.js'
 
-const COLOR_OFF = combineRgb(0, 0, 0)         // 黑色 - 关闭/未选中
-const COLOR_ON = combineRgb(0, 200, 0)        // 绿色 - 开启/选中
-const COLOR_LIVE = combineRgb(200, 0, 0)      // 红色 - 直播/录制中
+const COLOR_ON = combineRgb(0, 200, 0) // 绿色 - 开启/选中
+const COLOR_LIVE = combineRgb(200, 0, 0) // 红色 - 直播/录制中
 const COLOR_PREVIEW = combineRgb(0, 128, 255) // 蓝色 - 预览
 const COLOR_WHITE = combineRgb(255, 255, 255)
 
@@ -73,7 +72,7 @@ export function setupFeedbacks(self) {
 					bgcolor: COLOR_ON,
 					color: COLOR_WHITE,
 				},
-				callback: (feedback) => {
+				callback: () => {
 					const currentValue = self.deviceStates[config.property]
 					return currentValue === 1
 				},
@@ -99,9 +98,7 @@ export function setupFeedbacks(self) {
 			},
 		],
 		callback: (feedback) => {
-			const func = ActionRegistry.source.functions.find(
-				(f) => f.name === feedback.options.sourceIndex
-			)
+			const func = ActionRegistry.source.functions.find((f) => f.name === feedback.options.sourceIndex)
 			if (!func) return {}
 
 			const currentValue = self.deviceStates[func.property]
@@ -137,9 +134,7 @@ export function setupFeedbacks(self) {
 			},
 		],
 		callback: (feedback) => {
-			const func = ActionRegistry.overlay.functions.find(
-				(f) => f.name === feedback.options.overlayIndex
-			)
+			const func = ActionRegistry.overlay.functions.find((f) => f.name === feedback.options.overlayIndex)
 			if (!func) return {}
 
 			const currentValue = self.deviceStates[func.property]
