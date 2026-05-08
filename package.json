@@ -1,0 +1,33 @@
+{
+	"name": "companion-module-yunxi-yolobox",
+	"version": "1.0.0",
+	"description": "Companion module for YoloBox/YoloDeck device control",
+	"main": "src/index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "node src/index.js",
+		"package": "companion-module-build",
+		"lint": "eslint src/",
+		"format": "prettier --write src/"
+	},
+	"keywords": [
+		"companion-module",
+		"yunxi",
+		"yolobox",
+		"yolodeck",
+		"streaming",
+		"broadcast"
+	],
+	"author": "YunXi",
+	"license": "MIT",
+	"dependencies": {
+		"@companion-module/base": "~1.12.0",
+		"ws": "^8.18.0"
+	},
+	"devDependencies": {
+		"@companion-module/tools": "^2.6.1"
+	},
+	"engines": {
+		"node": "^18.12 || ^22.8"
+	}
+}

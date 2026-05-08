@@ -1,0 +1,38 @@
+{
+	"id": "yunxi-yolobox",
+	"name": "yunxi-yolobox",
+	"shortname": "YoloBox",
+	"description": "Control YoloBox streaming devices via WebSocket",
+	"version": "1.0.0",
+	"license": "MIT",
+	"repository": "git+https://github.com/bitfocus/companion-module-yunxi-yolobox.git",
+	"bugs": "https://github.com/bitfocus/companion-module-yunxi-yolobox/issues",
+	"maintainers": [
+		{
+			"name": "YunXi Tech",
+			"email": "support@yunxi.tv"
+		}
+	],
+	"runtime": {
+		"type": "node18",
+		"api": "nodejs-ipc",
+		"apiVersion": "1.12.1",
+		"entrypoint": "../src/index.js"
+	},
+	"legacyIds": [],
+	"manufacturer": "YunXi",
+	"products": [
+		"YoloBox",
+		"YoloBox Pro",
+		"YoloBox Ultra",
+		"YoloBox Mini",
+		"YoloBox Instream"
+	],
+	"keywords": [
+		"streaming",
+		"broadcast",
+		"video",
+		"switcher",
+		"yolodeck"
+	]
+}
