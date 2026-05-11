@@ -15,7 +15,7 @@
 		}
 	],
 	"runtime": {
-		"type": "node18",
+		"type": "node22",
 		"api": "nodejs-ipc",
 		"apiVersion": "1.12.1",
 		"entrypoint": "../src/index.js"
@@ -27,7 +27,8 @@
 		"YoloBox Pro",
 		"YoloBox Ultra",
 		"YoloBox Mini",
-		"YoloBox Instream"
+		"YoloBox Instream",
+		"YoloDeck"
 	],
 	"keywords": [
 		"streaming",
