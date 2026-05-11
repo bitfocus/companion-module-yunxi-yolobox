@@ -3,6 +3,7 @@ name: Companion Module Checks
 on:
   push:
     branches: [master]
+    tags: ['v*']
   pull_request:
 
 jobs:
