@@ -1,6 +1,6 @@
 {
 	"id": "yunxi-yolobox",
-	"name": "yunxi-yolobox",
+	"name": "YoloBox",
 	"shortname": "YoloBox",
 	"description": "Control YoloBox streaming devices via WebSocket",
 	"version": "1.0.0",
@@ -21,14 +21,9 @@
 		"entrypoint": "../src/index.js"
 	},
 	"legacyIds": [],
-	"manufacturer": "YunXi",
+	"manufacturer": "YoloLiv",
 	"products": [
-		"YoloBox",
-		"YoloBox Pro",
-		"YoloBox Ultra",
-		"YoloBox Mini",
-		"YoloBox Instream",
-		"YoloDeck"
+		"YoloBox Extreme"
 	],
 	"keywords": [
 		"streaming",
