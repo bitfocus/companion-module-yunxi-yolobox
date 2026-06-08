@@ -5,31 +5,20 @@
 
 import { combineRgb } from '@companion-module/base'
 import { ActionRegistry, ActionTypes } from './constants.js'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import fs from 'fs'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const ICONS_DIR = path.join(__dirname, '..', 'icons')
+import ICONS from './icons.generated.js'
 
 const COLOR_OFF = combineRgb(0, 0, 0)
 const COLOR_ON = combineRgb(0, 200, 0)
 const COLOR_WHITE = combineRgb(255, 255, 255)
 
 /**
- * 尝试加载图标文件，返回 base64 编码或 undefined
+ * 返回图标的 base64 data URL，未收录则返回 undefined。
+ * 图标在构建期由 scripts/generate-icons.mjs 内联进 icons.generated.js，
+ * 运行时不读文件系统，避免依赖被 webpack 静态替换成绝对路径的 import.meta.url。
  */
 function loadIcon(iconName) {
-	const iconPath = path.join(ICONS_DIR, `${iconName}.png`)
-	try {
-		if (fs.existsSync(iconPath)) {
-			const data = fs.readFileSync(iconPath)
-			return `data:image/png;base64,${data.toString('base64')}`
-		}
-	} catch {
-		// 图标不存在则不设置
-	}
-	return undefined
+	if (!iconName) return undefined
+	return ICONS[iconName]
 }
 
 /**

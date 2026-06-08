@@ -6,6 +6,8 @@
 	"type": "module",
 	"scripts": {
 		"dev": "node src/index.js",
+		"generate:icons": "node scripts/generate-icons.mjs",
+		"prepackage": "node scripts/generate-icons.mjs",
 		"package": "companion-module-build",
 		"lint": "eslint src/",
 		"lint:fix": "eslint src/ --fix",
