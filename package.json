@@ -1,6 +1,6 @@
 {
 	"name": "companion-module-yunxi-yolobox",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Companion module for YoloBox/YoloDeck device control",
 	"main": "src/index.js",
 	"type": "module",
