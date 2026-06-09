@@ -1,13 +1,13 @@
-# YunXi YoloBox
+# YoloLiv: YoloBox
 
-This module controls YoloBox streaming devices over your local network via WebSocket.
+This module controls the YoloBox Extreme streaming device over your local network via WebSocket.
 
 ## Configuration
 
-| Setting | Description |
-|---------|-------------|
+| Setting       | Description                                                                   |
+| ------------- | ----------------------------------------------------------------------------- |
 | **Device IP** | The IP address of your YoloBox device. Find it in YoloBox Settings > Network. |
-| **Port** | WebSocket port (default: 8889). Usually no need to change. |
+| **Port**      | WebSocket port (default: 8889). Usually no need to change.                    |
 
 Make sure your YoloBox and the computer running Companion are on the **same local network**.
 
@@ -32,8 +32,4 @@ Make sure your YoloBox and the computer running Companion are on the **same loca
 
 ## Supported Devices
 
-- YoloBox
-- YoloBox Pro
-- YoloBox Ultra
-- YoloBox Mini
-- YoloBox Instream
+- YoloBox Extreme
