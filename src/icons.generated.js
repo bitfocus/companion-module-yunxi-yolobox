@@ -1,8 +1,8 @@
 /**
- * 自动生成，请勿手动编辑。
- * 运行 `node scripts/generate-icons.mjs`（或 `yarn package`）重新生成。
+ * Auto-generated, do not edit manually.
+ * Run `node scripts/generate-icons.mjs` (or `yarn package`) to regenerate.
  *
- * 图标以 base64 内联，使打包产物不依赖运行时文件系统与 import.meta.url。
+ * Icons are inlined as base64 so the bundle output does not depend on the runtime filesystem or import.meta.url.
  */
 
 const ICONS = {

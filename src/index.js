@@ -1,6 +1,6 @@
 /**
  * YoloBox Companion Module - Main Entry Point
- * 继承 InstanceBase，整合 WebSocket 通信、actions、feedbacks、presets、variables
+ * Extends InstanceBase, integrating WebSocket communication, actions, feedbacks, presets, and variables
  */
 
 import { InstanceBase, InstanceStatus, runEntrypoint } from '@companion-module/base'
@@ -14,14 +14,14 @@ import { DEFAULT_PORT } from './constants.js'
 
 export class YunxiYoloBoxInstance extends InstanceBase {
 	/**
-	 * 设备状态缓存 — property → value
+	 * Device state cache — property → value
 	 * @type {Record<string, number>}
 	 */
 	deviceStates = {}
 
 	/**
-	 * 设备支持的 property 集合（从 /specification 获取）
-	 * null 表示尚未查询，此时不做过滤（显示所有 Action）
+	 * Set of properties supported by the device (obtained from /specification)
+	 * null means it has not been queried yet, in which case no filtering is applied (all Actions are shown)
 	 * @type {Set<string> | null}
 	 */
 	supportedProperties = null
@@ -36,12 +36,12 @@ export class YunxiYoloBoxInstance extends InstanceBase {
 
 		this.wsClient = new YunxiWebSocketClient(this)
 
-		// 设备状态推送回调
+		// Device state push callback
 		this.wsClient.onStateUpdate = (property, value, _group, _description) => {
 			this.updateDeviceState(property, value)
 		}
 
-		// 连接状态变化回调
+		// Connection state change callback
 		this.wsClient.onConnectionChange = async (connected) => {
 			this.updateStatus(
 				connected ? InstanceStatus.Ok : InstanceStatus.Disconnected,
@@ -54,16 +54,16 @@ export class YunxiYoloBoxInstance extends InstanceBase {
 			}
 		}
 
-		// 先用全量 Action 注册（设备连接后会根据 specification 过滤）
+		// Register with the full set of Actions first (filtered by specification after the device connects)
 		setupActions(this)
 		setupFeedbacks(this)
 		setupPresets(this)
 		setupVariables(this)
 
-		// 初始变量
+		// Initial variables
 		updateConnectionVariables(this, false)
 
-		// 如果已有配置，立即连接
+		// If a configuration already exists, connect immediately
 		if (config.host) {
 			this.updateStatus(InstanceStatus.Connecting)
 			this.wsClient.connect(config.host, config.port || DEFAULT_PORT)
@@ -73,7 +73,7 @@ export class YunxiYoloBoxInstance extends InstanceBase {
 	}
 
 	/**
-	 * 配置变更时调用
+	 * Called when the configuration changes
 	 */
 	async configUpdated(config) {
 		const hostChanged = this.config.host !== config.host
@@ -95,7 +95,7 @@ export class YunxiYoloBoxInstance extends InstanceBase {
 	}
 
 	/**
-	 * 模块销毁
+	 * Module destruction
 	 */
 	async destroy() {
 		this.log('info', 'Module destroying')
@@ -105,16 +105,16 @@ export class YunxiYoloBoxInstance extends InstanceBase {
 	}
 
 	/**
-	 * 返回配置字段
+	 * Return the configuration fields
 	 */
 	getConfigFields() {
 		return getConfigFields()
 	}
 
 	/**
-	 * 更新设备状态并触发 feedback 刷新 + 变量更新
-	 * @param {string} property - 设备属性标识
-	 * @param {number} value - 新值
+	 * Update the device state and trigger a feedback refresh + variable update
+	 * @param {string} property - Device property identifier
+	 * @param {number} value - New value
 	 */
 	updateDeviceState(property, value) {
 		const prevValue = this.deviceStates[property]
@@ -123,16 +123,16 @@ export class YunxiYoloBoxInstance extends InstanceBase {
 		if (prevValue !== value) {
 			this.log('debug', `State changed: ${property} ${prevValue} -> ${value}`)
 
-			// 更新变量
+			// Update variables
 			updateStateVariable(this, property, value)
 
-			// 触发所有 feedback 重新检查
+			// Trigger a re-check of all feedbacks
 			this.checkFeedbacks()
 		}
 	}
 
 	/**
-	 * 查询设备 specification 并重新注册过滤后的 actions/presets
+	 * Query the device specification and re-register the filtered actions/presets
 	 */
 	async _fetchAndApplySpecification() {
 		const spec = await this.wsClient.fetchSpecification()
@@ -142,16 +142,16 @@ export class YunxiYoloBoxInstance extends InstanceBase {
 			return
 		}
 
-		// 收集设备支持的 property 集合
+		// Collect the set of properties supported by the device
 		this.supportedProperties = new Set(spec.actions.map((a) => a.property))
 		this.log('info', `Device supports ${this.supportedProperties.size} properties`)
 
-		// 用过滤后的数据重新注册 actions/feedbacks/presets
+		// Re-register actions/feedbacks/presets using the filtered data
 		setupActions(this)
 		setupFeedbacks(this)
 		setupPresets(this)
 	}
 }
 
-// Companion 入口
+// Companion entry point
 runEntrypoint(YunxiYoloBoxInstance, [])

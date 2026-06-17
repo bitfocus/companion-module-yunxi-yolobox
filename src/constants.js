@@ -1,6 +1,6 @@
 /**
  * YoloBox Companion Module - Constants
- * 复用自 StreamDeck 插件，转为 ESM 导出
+ * Reused from the StreamDeck plugin, converted to ESM exports
  */
 
 export const ActionTypes = {
@@ -27,7 +27,7 @@ export const WebSocketEndpoints = {
 }
 
 /**
- * Action 注册表 — 每个 key 是 Companion 中的 actionId
+ * Action registry — each key is the actionId used in Companion
  */
 export const ActionRegistry = {
 	// 1. Video Source
@@ -928,11 +928,11 @@ export const ActionRegistry = {
 }
 
 /**
- * 设备 Property -> Action 的反向映射表
- * 用于接收设备状态推送时，定位到对应的 action 和 function
+ * Reverse mapping from device property to Action
+ * Used when receiving device state updates to locate the corresponding action and function
  */
 export const PropertyToActionMap = {
-	// Toggle 类型
+	// Toggle type
 	live_state: { actionId: 'stream_record', type: 'toggle', functionName: 'goLive' },
 	record_state: { actionId: 'stream_record', type: 'toggle', functionName: 'record' },
 	fbk_toggle: { actionId: 'transition', type: 'toggle', functionName: 'ftb' },
@@ -950,7 +950,7 @@ export const PropertyToActionMap = {
 	scoretime_state: { actionId: 'scoreboard', type: 'toggle', functionName: 'scoreboardTime' },
 	time_state: { actionId: 'scoreboard', type: 'toggle', functionName: 'timeStartPause' },
 
-	// Cycle 类型
+	// Cycle type
 	pgm_toggle: { actionId: 'stream_record', type: 'cycle', functionName: 'pgmOut' },
 	pgm_toggle_two: { actionId: 'stream_record', type: 'cycle', functionName: 'pgmOut2' },
 	transition_ptp_type: { actionId: 'director_mode', type: 'cycle', functionName: 'directorTransitionMethod' },
@@ -959,7 +959,7 @@ export const PropertyToActionMap = {
 	transitions_type: { actionId: 'transition', type: 'cycle', functionName: 'transitionMethod' },
 	play_mode: { actionId: 'bgm', type: 'cycle', functionName: 'playMode' },
 
-	// Source 类型
+	// Source type
 	preview_source_1: { actionId: 'source', type: 'source', functionName: 'source1' },
 	preview_source_2: { actionId: 'source', type: 'source', functionName: 'source2' },
 	preview_source_3: { actionId: 'source', type: 'source', functionName: 'source3' },
@@ -971,7 +971,7 @@ export const PropertyToActionMap = {
 	preview_source_9: { actionId: 'source', type: 'source', functionName: 'source9' },
 	preview_source_10: { actionId: 'source', type: 'source', functionName: 'source10' },
 
-	// Overlay 类型
+	// Overlay type
 	Overlay_1: { actionId: 'overlay', type: 'overlay', functionName: 'overlay1' },
 	Overlay_2: { actionId: 'overlay', type: 'overlay', functionName: 'overlay2' },
 	Overlay_3: { actionId: 'overlay', type: 'overlay', functionName: 'overlay3' },

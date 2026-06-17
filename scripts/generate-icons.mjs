@@ -1,13 +1,13 @@
 /**
- * 生成 src/icons.generated.js
+ * Generate src/icons.generated.js
  *
- * 把 icons/ 目录下「被 constants.js 引用到的」PNG 以 base64 data URL 内联成一个 JS 模块。
- * 这样图标随 bundle 一起分发，运行时无需读文件系统，也不依赖 import.meta.url —— 后者会被
- * webpack 静态替换成「构建机器的绝对路径」，导致发布版在用户机器（尤其 Windows）上崩溃。
+ * Inline the PNGs under the icons/ directory that are referenced by constants.js as base64 data URLs into a single JS module.
+ * This way the icons ship together with the bundle, requiring no filesystem reads at runtime and no dependency on import.meta.url ——
+ * the latter would be statically replaced by webpack with the build machine's absolute path, causing the released version to crash on user machines (especially Windows).
  *
- * 用法：node scripts/generate-icons.mjs
- * 已接入 package 脚本（yarn package 会先执行本脚本）。生成结果同时提交进仓库，
- * 即便 CI 直接调用 companion-module-build 也不会缺文件。
+ * Usage: node scripts/generate-icons.mjs
+ * Wired into the package script (yarn package runs this script first). The generated result is also committed to the repo,
+ * so that even if CI calls companion-module-build directly, no files will be missing.
  */
 import fs from 'fs'
 import path from 'path'
@@ -18,7 +18,7 @@ const iconsDir = path.join(rootDir, 'icons')
 const constantsFile = path.join(rootDir, 'src', 'constants.js')
 const outFile = path.join(rootDir, 'src', 'icons.generated.js')
 
-// 从 constants.js 收集所有被引用的图标名（icon: / iconOn: / icons: [...]）
+// Collect all referenced icon names from constants.js (icon: / iconOn: / icons: [...])
 const constants = fs.readFileSync(constantsFile, 'utf8')
 const names = new Set()
 for (const m of constants.matchAll(/\bicon(?:On)?:\s*'([^']+)'/g)) names.add(m[1])
@@ -40,18 +40,18 @@ for (const name of sorted) {
 }
 
 if (missing.length) {
-	console.warn(`[generate-icons] 警告：constants.js 引用了 ${missing.length} 个不存在的图标：`)
+	console.warn(`[generate-icons] Warning: constants.js references ${missing.length} icon(s) that do not exist:`)
 	for (const n of missing) console.warn(`  - ${n}.png`)
 }
 
 const header = `/**
- * 自动生成，请勿手动编辑。
- * 运行 \`node scripts/generate-icons.mjs\`（或 \`yarn package\`）重新生成。
+ * Auto-generated, do not edit manually.
+ * Run \`node scripts/generate-icons.mjs\` (or \`yarn package\`) to regenerate.
  *
- * 图标以 base64 内联，使打包产物不依赖运行时文件系统与 import.meta.url。
+ * Icons are inlined as base64 so the bundle output does not depend on the runtime filesystem or import.meta.url.
  */
 `
 const body = `const ICONS = {\n${entries.join('\n')}\n}\n\nexport default ICONS\n`
 fs.writeFileSync(outFile, header + '\n' + body)
 
-console.log(`[generate-icons] 已写入 ${path.relative(rootDir, outFile)}（${entries.length} 个图标）`)
+console.log(`[generate-icons] Wrote ${path.relative(rootDir, outFile)} (${entries.length} icons)`)

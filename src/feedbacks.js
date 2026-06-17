@@ -1,31 +1,31 @@
 /**
  * YoloBox Companion Module - Feedback Definitions
- * 按钮状态反馈：根据设备状态改变按钮外观
+ * Button state feedback: change button appearance based on device state
  */
 
 import { combineRgb } from '@companion-module/base'
 import { ActionRegistry, ActionTypes, PropertyToActionMap } from './constants.js'
 
-const COLOR_ON = combineRgb(0, 200, 0) // 绿色 - 开启/选中
-const COLOR_LIVE = combineRgb(200, 0, 0) // 红色 - 直播/录制中
-const COLOR_PREVIEW = combineRgb(0, 128, 255) // 蓝色 - 预览
+const COLOR_ON = combineRgb(0, 200, 0) // green - on/selected
+const COLOR_LIVE = combineRgb(200, 0, 0) // red - live/recording
+const COLOR_PREVIEW = combineRgb(0, 128, 255) // blue - preview
 const COLOR_WHITE = combineRgb(255, 255, 255)
 
 /**
- * 注册所有 feedbacks 到 Companion 实例
+ * Register all feedbacks to the Companion instance
  * @param {import('./index.js').YunxiYoloBoxInstance} self
  */
 export function setupFeedbacks(self) {
 	const feedbacks = {}
 
-	// 为 PropertyToActionMap 中每个有状态的 property 创建 feedback
-	// 按 actionId 分组，每个 action 一个 feedback
+	// Create a feedback for each stateful property in PropertyToActionMap
+	// Grouped by actionId, one feedback per action
 
 	for (const [actionId, config] of Object.entries(ActionRegistry)) {
 		if (!config.hasState) continue
 
 		if (config.functions && config.functions.length > 0) {
-			// 多功能 Action 的 feedback
+			// feedback for a multi-function Action
 			feedbacks[`${actionId}_state`] = {
 				type: 'boolean',
 				name: `${config.category} State`,
@@ -62,7 +62,7 @@ export function setupFeedbacks(self) {
 				},
 			}
 		} else if (config.property) {
-			// 单功能 Action 的 feedback
+			// feedback for a single-function Action
 			feedbacks[`${actionId}_state`] = {
 				type: 'boolean',
 				name: `${config.category} State`,
@@ -80,7 +80,7 @@ export function setupFeedbacks(self) {
 		}
 	}
 
-	// 额外添加 Source 的特殊 feedback（支持 4 种状态）
+	// Additionally add a special Source feedback (supports 4 states)
 	feedbacks['source_active'] = {
 		type: 'advanced',
 		name: 'Video Source Active State',
@@ -116,7 +116,7 @@ export function setupFeedbacks(self) {
 		},
 	}
 
-	// Overlay 特殊 feedback
+	// special Overlay feedback
 	feedbacks['overlay_active'] = {
 		type: 'advanced',
 		name: 'Overlay Active State',
@@ -145,7 +145,7 @@ export function setupFeedbacks(self) {
 		},
 	}
 
-	// Cycle 类型的 feedback
+	// feedback for the Cycle type
 	feedbacks['cycle_state'] = {
 		type: 'advanced',
 		name: 'Cycle Value State',

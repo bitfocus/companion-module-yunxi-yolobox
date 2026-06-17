@@ -1,6 +1,6 @@
 {
 	"name": "companion-module-yunxi-yolobox",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Companion module for YoloBox/YoloDeck device control",
 	"main": "src/index.js",
 	"type": "module",
@@ -29,8 +29,13 @@
 		"ws": "^8.20.1"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^2.6.1"
+		"@companion-module/tools": "^2.6.1",
+		"eslint": "^9.36.0",
+		"prettier": "^3.6.2",
+		"typescript": "^5.6.0",
+		"typescript-eslint": "^8.44.1"
 	},
+	"prettier": "@companion-module/tools/.prettierrc.json",
 	"engines": {
 		"node": "^18.12 || ^22.8"
 	},

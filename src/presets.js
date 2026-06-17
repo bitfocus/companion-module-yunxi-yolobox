@@ -1,6 +1,6 @@
 /**
  * YoloBox Companion Module - Preset Definitions
- * 预设按钮配置，用户可从 Companion 面板直接拖拽到按键上
+ * Preset button configurations that users can drag directly onto buttons from the Companion panel.
  */
 
 import { combineRgb } from '@companion-module/base'
@@ -12,9 +12,10 @@ const COLOR_ON = combineRgb(0, 200, 0)
 const COLOR_WHITE = combineRgb(255, 255, 255)
 
 /**
- * 返回图标的 base64 data URL，未收录则返回 undefined。
- * 图标在构建期由 scripts/generate-icons.mjs 内联进 icons.generated.js，
- * 运行时不读文件系统，避免依赖被 webpack 静态替换成绝对路径的 import.meta.url。
+ * Returns the icon's base64 data URL, or undefined if the icon is not included.
+ * Icons are inlined into icons.generated.js at build time by scripts/generate-icons.mjs,
+ * so the file system is not read at runtime, avoiding reliance on import.meta.url that webpack
+ * statically rewrites into an absolute path.
  */
 function loadIcon(iconName) {
 	if (!iconName) return undefined
@@ -22,18 +23,18 @@ function loadIcon(iconName) {
 }
 
 /**
- * 注册所有 presets 到 Companion 实例
+ * Registers all presets with the Companion instance.
  * @param {import('./index.js').YunxiYoloBoxInstance} self
  */
 export function setupPresets(self) {
 	const presets = {}
-	const supported = self.supportedProperties // null = 全部显示
+	const supported = self.supportedProperties // null = show all
 
 	for (const [actionId, config] of Object.entries(ActionRegistry)) {
 		if (config.functions && config.functions.length > 0) {
-			// 为每个 function 创建一个 preset
+			// Create a preset for each function
 			for (const func of config.functions) {
-				// 如果设备不支持该 property，跳过
+				// Skip if the device does not support this property
 				if (supported && !supported.has(func.property)) continue
 				const presetId = `${actionId}_${func.name}`
 				const icon = loadIcon(func.icon)
@@ -64,13 +65,13 @@ export function setupPresets(self) {
 					feedbacks: [],
 				}
 
-				// 设置图标
+				// Set the icon
 				if (icon) {
 					preset.style.png64 = icon
 					preset.style.text = ''
 				}
 
-				// 如果是有状态的 Boolean 类型，添加 feedback
+				// If it is a stateful Boolean type, add a feedback
 				if (config.hasState && func.actionType === ActionTypes.BOOLEAN) {
 					preset.feedbacks.push({
 						feedbackId: `${actionId}_state`,
@@ -83,7 +84,7 @@ export function setupPresets(self) {
 						},
 					})
 
-					// 如果有 iconOn，在 feedback 中使用
+					// If there is an iconOn, use it in the feedback
 					const iconOn = loadIcon(func.iconOn)
 					if (iconOn) {
 						preset.feedbacks[0].style.png64 = iconOn
@@ -91,7 +92,7 @@ export function setupPresets(self) {
 					}
 				}
 
-				// Source 类型：添加特殊 feedback
+				// Source type: add a special feedback
 				if (func.actionType === ActionTypes.DYNAMIC && actionId === 'source') {
 					preset.feedbacks.push({
 						feedbackId: 'source_active',
@@ -101,7 +102,7 @@ export function setupPresets(self) {
 					})
 				}
 
-				// Overlay 类型：添加特殊 feedback
+				// Overlay type: add a special feedback
 				if (func.actionType === ActionTypes.DYNAMIC && actionId === 'overlay') {
 					preset.feedbacks.push({
 						feedbackId: 'overlay_active',
@@ -114,7 +115,7 @@ export function setupPresets(self) {
 				presets[presetId] = preset
 			}
 		} else if (config.property) {
-			// 单功能 Action：如果设备不支持该 property，跳过
+			// Single-function Action: skip if the device does not support this property
 			if (supported && !supported.has(config.property)) continue
 			const icon = loadIcon(config.icon)
 			const presetId = actionId

@@ -1,12 +1,12 @@
 /**
  * YoloBox Companion Module - Action Definitions
- * 基于 ActionRegistry 生成 Companion actions
+ * Generates Companion actions based on the ActionRegistry
  */
 
 import { ActionRegistry, ActionTypes } from './constants.js'
 
 /**
- * 为多功能 Action 生成下拉选项（仅保留设备支持的 function）
+ * Builds dropdown choices for a multi-function Action (keeps only functions supported by the device)
  */
 function buildFunctionChoices(config, supported) {
 	if (!config.functions || config.functions.length === 0) return []
@@ -15,18 +15,18 @@ function buildFunctionChoices(config, supported) {
 }
 
 /**
- * 注册所有 actions 到 Companion 实例
- * 如果 self.supportedProperties 已设置，则仅注册设备支持的 Action
+ * Registers all actions to the Companion instance
+ * If self.supportedProperties is set, only registers Actions supported by the device
  * @param {import('./index.js').YunxiYoloBoxInstance} self
  */
 export function setupActions(self) {
 	const actions = {}
-	const supported = self.supportedProperties // null = 全部显示
+	const supported = self.supportedProperties // null = show all
 
 	for (const [actionId, config] of Object.entries(ActionRegistry)) {
 		if (config.functions && config.functions.length > 0) {
 			const choices = buildFunctionChoices(config, supported)
-			// 如果过滤后没有可用 function，跳过整个 Action
+			// If no function remains after filtering, skip the entire Action
 			if (choices.length === 0) continue
 
 			actions[actionId] = {
@@ -45,7 +45,7 @@ export function setupActions(self) {
 				},
 			}
 		} else if (config.property) {
-			// 单功能 Action：如果设备不支持该 property，跳过
+			// Single-function Action: skip if the device does not support this property
 			if (supported && !supported.has(config.property)) continue
 
 			actions[actionId] = {
@@ -62,7 +62,7 @@ export function setupActions(self) {
 }
 
 /**
- * 处理多功能 Action 的按键回调
+ * Handles the button callback for a multi-function Action
  */
 async function handleMultiFunctionAction(self, actionId, config, event) {
 	const selectedFunctionName = event.options.selectedFunction || config.defaultFunction
@@ -84,7 +84,7 @@ async function handleMultiFunctionAction(self, actionId, config, event) {
 	let value
 	if (func.actionType === ActionTypes.BOOLEAN) {
 		if (func.toggle === false) {
-			// 非 toggle 按键：当前状态为 0 时才发送
+			// Non-toggle button: only send when the current state is 0
 			const currentState = self.deviceStates[property] ?? 0
 			if (currentState !== 0) {
 				self.log('debug', `Non-toggle button disabled, current state: ${currentState}`)
@@ -92,7 +92,7 @@ async function handleMultiFunctionAction(self, actionId, config, event) {
 			}
 			value = func.value ?? 0
 		} else {
-			// Toggle：取反
+			// Toggle: invert the value
 			const currentState = self.deviceStates[property] ?? 0
 			value = currentState === 0 ? 1 : 0
 		}
@@ -103,7 +103,7 @@ async function handleMultiFunctionAction(self, actionId, config, event) {
 		const nextIndex = (currentIndex + 1) % cycleValues.length
 		value = cycleValues[nextIndex]
 	} else {
-		// COMMAND / MODE / DYNAMIC 等：使用 func 配置的 value
+		// COMMAND / MODE / DYNAMIC, etc.: use the value configured in func
 		value = func.value !== undefined ? func.value : 0
 	}
 
@@ -112,7 +112,7 @@ async function handleMultiFunctionAction(self, actionId, config, event) {
 
 	if (result.success) {
 		self.log('debug', `Action OK: ${property} = ${value}`)
-		// 乐观更新本地状态
+		// Optimistically update the local state
 		self.updateDeviceState(property, value)
 	} else {
 		self.log('warn', `Action failed: ${property} - ${result.error}`)
@@ -120,7 +120,7 @@ async function handleMultiFunctionAction(self, actionId, config, event) {
 }
 
 /**
- * 处理单功能 Action 的按键回调
+ * Handles the button callback for a single-function Action
  */
 async function handleSingleFunctionAction(self, actionId, config, _event) {
 	const property = config.property

@@ -1,22 +1,22 @@
 /**
  * YoloBox Companion Module - Variable Definitions
- * 设备状态变量，可在 Companion 按钮文本中引用
+ * Device state variables that can be referenced in Companion button text
  */
 
 import { ActionRegistry, PropertyToActionMap } from './constants.js'
 
 /**
- * 注册所有变量到 Companion 实例
+ * Register all variables with the Companion instance
  * @param {import('./index.js').YunxiYoloBoxInstance} self
  */
 export function setupVariables(self) {
 	const variables = [
-		// 连接状态
+		// Connection state
 		{ variableId: 'connection_state', name: 'Connection State' },
 		{ variableId: 'device_ip', name: 'Device IP' },
 	]
 
-	// 为所有有状态的 property 创建变量
+	// Create a variable for every stateful property
 	for (const [property, mapping] of Object.entries(PropertyToActionMap)) {
 		const config = ActionRegistry[mapping.actionId]
 		const func = config?.functions?.find((f) => f.name === mapping.functionName)
@@ -32,7 +32,7 @@ export function setupVariables(self) {
 }
 
 /**
- * 更新连接相关变量
+ * Update connection-related variables
  * @param {import('./index.js').YunxiYoloBoxInstance} self
  * @param {boolean} connected
  */
@@ -44,7 +44,7 @@ export function updateConnectionVariables(self, connected) {
 }
 
 /**
- * 根据设备状态推送更新对应变量
+ * Push an update to the corresponding variable based on device state
  * @param {import('./index.js').YunxiYoloBoxInstance} self
  * @param {string} property
  * @param {any} value

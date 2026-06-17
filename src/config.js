@@ -1,12 +1,12 @@
 /**
  * YoloBox Companion Module - Configuration Fields
- * 定义 Companion 配置面板
+ * Defines the Companion configuration panel
  */
 
 import { DEFAULT_PORT } from './constants.js'
 
 /**
- * 返回 Companion 配置面板字段
+ * Returns the Companion configuration panel fields
  */
 export function getConfigFields() {
 	return [
@@ -34,7 +34,8 @@ export function getConfigFields() {
 			id: 'info',
 			label: 'Connection Info',
 			width: 12,
-			value: 'Make sure your YoloBox and Companion are on the same network. The device WebSocket server runs on port 8889 by default.',
+			value:
+				'Make sure your YoloBox and Companion are on the same network. The device WebSocket server runs on port 8889 by default.',
 		},
 	]
 }

@@ -1,6 +1,6 @@
 /**
  * YoloBox Companion Module - WebSocket Client
- * 复用自 StreamDeck 插件，适配 Node.js ws 库 + Companion 日志
+ * Reused from the StreamDeck plugin, adapted for the Node.js ws library + Companion logging
  */
 
 import WebSocket from 'ws'
@@ -16,7 +16,7 @@ export const ConnectionState = {
 
 export class YunxiWebSocketClient {
 	/**
-	 * @param {import('@companion-module/base').InstanceBase} instance - Companion 模块实例，用于日志
+	 * @param {import('@companion-module/base').InstanceBase} instance - Companion module instance, used for logging
 	 */
 	constructor(instance) {
 		this.instance = instance
@@ -38,7 +38,7 @@ export class YunxiWebSocketClient {
 	}
 
 	/**
-	 * 连接到 YoloBox 设备
+	 * Connect to the YoloBox device
 	 */
 	connect(host, port = DEFAULT_PORT) {
 		if (this.isConnected && this.host === host && this.port === port) {
@@ -75,7 +75,7 @@ export class YunxiWebSocketClient {
 	}
 
 	/**
-	 * 断开所有连接
+	 * Disconnect all connections
 	 */
 	disconnect() {
 		this._clearTimers()
@@ -104,7 +104,7 @@ export class YunxiWebSocketClient {
 	}
 
 	/**
-	 * 发送 Action 命令到设备
+	 * Send an Action command to the device
 	 * @returns {Promise<{success: boolean, data?: any, error?: string}>}
 	 */
 	sendAction(property, value, group = '', description = '') {
@@ -151,7 +151,7 @@ export class YunxiWebSocketClient {
 	}
 
 	/**
-	 * 确保 Action 持久连接可用
+	 * Ensure the persistent Action connection is available
 	 */
 	_ensureActionSocket() {
 		return new Promise((resolve, reject) => {
@@ -178,7 +178,7 @@ export class YunxiWebSocketClient {
 	}
 
 	/**
-	 * 创建 Action 持久连接
+	 * Create the persistent Action connection
 	 */
 	_createActionSocket() {
 		return new Promise((resolve, reject) => {
@@ -241,7 +241,7 @@ export class YunxiWebSocketClient {
 					}
 					this.pendingRequests.clear()
 				}, 200)
-				// 预创建下一个连接
+				// Pre-create the next connection
 				if (this.host && this.isConnected) {
 					this._createActionSocket().catch(() => {})
 				}
@@ -249,7 +249,7 @@ export class YunxiWebSocketClient {
 		})
 	}
 
-	// --- Subscriber Socket 事件 ---
+	// --- Subscriber Socket events ---
 
 	_onOpen() {
 		this.instance.log('info', `Connected to ${this.host}`)
@@ -284,7 +284,7 @@ export class YunxiWebSocketClient {
 		this._startProbing()
 	}
 
-	// --- 心跳 ---
+	// --- heartbeat ---
 
 	_startHeartbeat() {
 		this._stopHeartbeat()
@@ -322,7 +322,7 @@ export class YunxiWebSocketClient {
 		}
 	}
 
-	// --- 探测重连 ---
+	// --- probe-based reconnection ---
 
 	_startProbing() {
 		if (this.probeTimer) return
@@ -401,8 +401,8 @@ export class YunxiWebSocketClient {
 	}
 
 	/**
-	 * 查询设备支持的 Action 列表
-	 * 连接到 /specification 端点，设备返回 ActionSpecification JSON 后自动关闭
+	 * Query the list of Actions supported by the device
+	 * Connects to the /specification endpoint; the device returns ActionSpecification JSON and then closes automatically
 	 * @returns {Promise<object|null>}
 	 */
 	fetchSpecification() {
@@ -443,7 +443,7 @@ export class YunxiWebSocketClient {
 	}
 
 	/**
-	 * 获取连接状态摘要
+	 * Get a summary of the connection status
 	 */
 	getStatus() {
 		return {
